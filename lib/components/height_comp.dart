@@ -3,6 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:bmi_calculator/constants.dart';
 
 class HeightComp extends StatelessWidget {
+  final int value;
+  final Function onChange;
+
+  HeightComp({
+    this.value,
+    this.onChange,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +31,7 @@ class HeightComp extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             children: <Widget>[
               Text(
-                '180',
+                value.toString(),
                 style: kNumberTextStyle,
               ),
               Text(
@@ -36,14 +44,17 @@ class HeightComp extends StatelessWidget {
             data: SliderTheme.of(context).copyWith(
               activeTrackColor: Colors.white,
               inactiveTrackColor: kGreyColor,
-              overlayColor: Color(0x29EB1555),
+              overlayColor: Color(0x59EB1555),
               thumbColor: kPinkColor,
+              thumbShape: RoundSliderThumbShape(
+                enabledThumbRadius: 14.0,
+              ),
             ),
             child: Slider(
               max: 220.0,
               min: 120.0,
-              value: 152.0,
-              onChanged: (value) {},
+              value: value.toDouble(),
+              onChanged: (value) => onChange(value.toInt()),
             ),
           )
         ],

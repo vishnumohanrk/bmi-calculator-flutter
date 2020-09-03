@@ -13,6 +13,40 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  GenderEnum _gender = GenderEnum.male;
+  int _height = 150;
+  int _age = 20;
+  int _weight = 74;
+
+  void _updateState(StateEnum stateLabel, dynamic payload) {
+    switch (stateLabel) {
+      case StateEnum.gender:
+        setState(() {
+          _gender = payload;
+        });
+        break;
+      case StateEnum.height:
+        setState(() {
+          _height = payload;
+        });
+        break;
+      case StateEnum.weight:
+        setState(() {
+          int dec = _weight - 1 <= 1 ? 1 : _weight - 1;
+          int inc = _weight + 1 >= 200 ? 200 : _weight + 1;
+          _weight = payload == CounterEnum.increment ? inc : dec;
+        });
+        break;
+      case StateEnum.age:
+        setState(() {
+          int dec = _age - 1 <= 1 ? 1 : _age - 1;
+          int inc = _age + 1 >= 110 ? 110 : _age + 1;
+          _age = payload == CounterEnum.increment ? inc : dec;
+        });
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,14 +69,22 @@ class _InputPageState extends State<InputPage> {
                 children: <Widget>[
                   Expanded(
                     child: ReusableCard(
-                      color: kActiveCardColor,
+                      color: _gender == GenderEnum.male
+                          ? kActiveCardColor
+                          : kInactiveCardColor,
                       child: TopRowCard(gender: GenderEnum.male),
+                      onPress: () =>
+                          _updateState(StateEnum.gender, GenderEnum.male),
                     ),
                   ),
                   Expanded(
                     child: ReusableCard(
-                      color: kActiveCardColor,
+                      color: _gender == GenderEnum.female
+                          ? kActiveCardColor
+                          : kInactiveCardColor,
                       child: TopRowCard(gender: GenderEnum.female),
+                      onPress: () =>
+                          _updateState(StateEnum.gender, GenderEnum.female),
                     ),
                   ),
                 ],
@@ -51,7 +93,10 @@ class _InputPageState extends State<InputPage> {
             Expanded(
               child: ReusableCard(
                 color: kActiveCardColor,
-                child: HeightComp(),
+                child: HeightComp(
+                  value: _height,
+                  onChange: (val) => _updateState(StateEnum.height, val),
+                ),
               ),
             ),
             Expanded(
@@ -62,6 +107,11 @@ class _InputPageState extends State<InputPage> {
                       color: kActiveCardColor,
                       child: CounterCard(
                         label: 'WEIGHT',
+                        value: _weight,
+                        dec: () => _updateState(
+                            StateEnum.weight, CounterEnum.decrement),
+                        inc: () => _updateState(
+                            StateEnum.weight, CounterEnum.increment),
                       ),
                     ),
                   ),
@@ -70,6 +120,11 @@ class _InputPageState extends State<InputPage> {
                       color: kActiveCardColor,
                       child: CounterCard(
                         label: 'AGE',
+                        value: _age,
+                        dec: () =>
+                            _updateState(StateEnum.age, CounterEnum.decrement),
+                        inc: () =>
+                            _updateState(StateEnum.age, CounterEnum.increment),
                       ),
                     ),
                   ),

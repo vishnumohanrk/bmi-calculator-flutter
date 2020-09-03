@@ -5,9 +5,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CounterCard extends StatelessWidget {
   final String label;
+  final int value;
+  final Function dec;
+  final Function inc;
 
   CounterCard({
     this.label,
+    this.value,
+    this.inc,
+    this.dec,
   });
 
   @override
@@ -21,15 +27,21 @@ class CounterCard extends StatelessWidget {
         ),
         SizedBox(height: 4.0),
         Text(
-          '74',
+          value.toString(),
           style: kNumberTextStyle,
         ),
         SizedBox(height: 4.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CounterBtn(CounterEnum.decrement),
-            CounterBtn(CounterEnum.increment),
+            CounterBtn(
+              parameter: CounterEnum.decrement,
+              onPress: dec,
+            ),
+            CounterBtn(
+              parameter: CounterEnum.increment,
+              onPress: inc,
+            ),
           ],
         ),
       ],
@@ -39,8 +51,9 @@ class CounterCard extends StatelessWidget {
 
 class CounterBtn extends StatelessWidget {
   final CounterEnum parameter;
+  final Function onPress;
 
-  CounterBtn(this.parameter);
+  CounterBtn({this.parameter, this.onPress});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +70,7 @@ class CounterBtn extends StatelessWidget {
             : FontAwesomeIcons.minus,
         size: 19.0,
       ),
-      onPressed: () {},
+      onPressed: onPress,
     );
   }
 }

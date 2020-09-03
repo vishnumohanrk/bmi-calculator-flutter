@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const kActiveCardColor = Color(0xff1D1F33);
-const kInactiveCardColor = Color(0xff0A0D22);
+const kInactiveCardColor = Color(0xff111328);
 const kPinkColor = Color(0xffEB1555);
 const kGreyColor = Color(0xff888993);
 
@@ -24,4 +24,11 @@ enum GenderEnum {
 enum CounterEnum {
   increment,
   decrement,
+}
+
+enum StateEnum {
+  gender,
+  height,
+  weight,
+  age,
 }
